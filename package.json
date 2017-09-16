@@ -1,0 +1,38 @@
+{
+  "name": "ns-findata",
+  "version": "0.0.1",
+  "description": "node-stock financial data module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/node-stock/ns-findata"
+  },
+  "license": "GPL3",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "rm": "rimraf dist",
+    "tsc": "tsc -p tsconfig.development.json",
+    "tslint": "tslint --project ./tslint.json",
+    "test": "mocha dist/**/*.test.js --timeout 3000 --require intelli-espower-loader",
+    "prepare": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "ns-common": "0.0.3"
+  },
+  "devDependencies": {
+    "@types/cheerio": "0.22.2",
+    "@types/config": "0.0.32",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.0.20",
+    "@types/power-assert": "^1.4.29",
+    "config": "^1.26.1",
+    "intelli-espower-loader": "^1.0.1",
+    "mocha": "^3.5.0",
+    "power-assert": "^1.4.4",
+    "rimraf": "^2.6.2",
+    "ts-node": "^3.3.0",
+    "tslint": "^5.6.0",
+    "typescript": "^2.4.2"
+  }
+}

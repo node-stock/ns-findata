@@ -1,5 +1,5 @@
 import { Symbology, Bar, ProBar } from './types';
-import { Kdb } from './Kdb';
+import { Kdb } from './kdb';
 
 /**
  * 财经数据接口

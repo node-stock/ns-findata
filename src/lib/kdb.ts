@@ -1,5 +1,4 @@
-import { Symbology, Bar } from './types';
-import { DataProvider } from './findata';
+import { SymbolInfo, Bar, Markets } from './types';
 import { Util } from 'ns-common';
 import * as cio from 'cheerio';
 
@@ -9,12 +8,12 @@ const baseUrl = 'http://k-db.com/stocks/';
  * @class
  * @classdesc {@link http://k-db.com/stocks/|Kdb接口}
  */
-export class Kdb implements DataProvider {
+export class Kdb {
 
   /**
   * 获取历史数据
   */
-  getBars(symbolInfo: Symbology, resolution?: string, from?: number, to?: number) {
+  getBars(symbolInfo: SymbolInfo, resolution?: string, from?: number, to?: number) {
 
   }
 
@@ -31,24 +30,9 @@ export class Kdb implements DataProvider {
     const res: string = await resPromise.text();
     const $ = cio.load(res);
 
-    const symbolInfo: Symbology = <Symbology>{};
+    const symbolInfo: SymbolInfo = <SymbolInfo>{};
     symbolInfo.symbol = symbol;
     symbolInfo.description = $('h1').text();
     return symbolInfo;
   }
-
-  /**
-  * 订阅实时数据
-  */
-  subscribeBars(symbolInfo: Symbology, resolution: string) {
-
-  }
-
-  /**
-  * 退订实时数据
-  */
-  unsubscribeBars(symbol: Symbology, resolution: string) {
-
-  }
-
 }

@@ -1,17 +1,17 @@
 import { Kdb } from './kdb';
-import { Symbology, Bar } from './types';
+import { SymbolInfo, Bar } from './types';
 import * as assert from 'power-assert';
 
 const testGetSymbolInfo = async () => {
-  const zz: Symbology = <Symbology>{};
+  const zz: SymbolInfo = <SymbolInfo>{};
   zz.symbol = '6553';
   const kdb = new Kdb();
-  const symbolInfo: Symbology = await kdb.getSymbolInfo('6553')
+  const symbolInfo: SymbolInfo = await kdb.getSymbolInfo('6553')
   console.log(symbolInfo.description);
   assert.ok(symbolInfo.description);
 }
 const testGetBars = async () => {
-  const zz: Symbology = <Symbology>{};
+  const zz: SymbolInfo = <SymbolInfo>{};
   zz.symbol = '6553';
   const kdb = new Kdb();
   await kdb.getSymbolInfo('6553')

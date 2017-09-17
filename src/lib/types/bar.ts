@@ -59,7 +59,7 @@ export interface Bar {
   /**
   * K线时间. unix时间戳 (UTC)
   */
-  time: number,
+  time|x: number,
   /**
   * K线格式化时间. (YYYY-MM-DD)
   */

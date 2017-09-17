@@ -1,3 +1,23 @@
+import { Symbol } from './symbol';
+
+/**
+ * 时区
+ */
+export enum TimeZone {
+  /**
+   * UTC时区
+   */
+  UTC = 'UTC',
+  /**
+   * 上海时区
+   */
+  Shanghai = 'Asia/Shanghai',
+  /**
+   * 东京时区
+   */
+  Tokyo = 'Asia/Tokyo'
+}
+
 /**
  * 交易所对象
  */
@@ -38,19 +58,30 @@ export enum TyoMarket {
   /**
    * JASDAQ
    */
-  Jasdaq  = 'JASDAQ'
+  Jasdaq = 'JASDAQ'
 }
 
 /**
- * 时区
+ * 交易市场集
+ *
+ * @interface
  */
-export enum TimeZone {
+export interface Market {
   /**
-   * 上海时区
+   * 市场名称
    */
-  Shanghai = 'Asia/Shanghai',
+  name: string,
   /**
-   * 东京时区
+   * 子市场
    */
-  Tokyo = 'Asia/Tokyo'
+  submarkets: [{
+    /**
+     * 子市场名称
+     */
+    name: string,
+    /**
+     * 商品数组
+     */
+    symbols: Symbol[]
+  }]
 }

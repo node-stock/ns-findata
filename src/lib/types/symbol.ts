@@ -43,6 +43,10 @@ export interface Symbol {
    */
   symbol: string,
   /**
+  * 商品名称
+  */
+  name: string,
+  /**
    * 商品全称
    */
   full_name: string,
@@ -77,11 +81,7 @@ export interface Symbol {
  *
  * @interface
  */
-export interface Symbology extends Symbol {
-  /**
-  * 商品名称
-  */
-  name: string,
+export interface SymbolInfo extends Symbol {
   /**
   * 交易时间
   */

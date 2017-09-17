@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "mysql2": "^1.4.2",
     "ns-common": "0.0.3"
   },
   "devDependencies": {

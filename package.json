@@ -11,10 +11,10 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "rm": "rimraf dist",
-    "tsc": "tsc -p tsconfig.development.json",
+    "tsc": "npm run rm && tsc -p tsconfig.development.json",
     "tslint": "tslint --project ./tslint.json",
     "test": "mocha dist/**/*.test.js --timeout 3000 --require intelli-espower-loader",
-    "prepare": "tsc -p tsconfig.json"
+    "prepare": "npm run rm && tsc -p tsconfig.json"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",

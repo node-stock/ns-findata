@@ -1,4 +1,4 @@
-import { Exchange, TimeZone } from './market';
+import { TimeZone } from './market';
 
 /**
  * 商品类型
@@ -53,7 +53,7 @@ export interface Symbol {
   /**
   * 交易所名
   */
-  exchange: Exchange,
+  exchange: string,
   /**
   * 商品的唯一标识符(ticker如果未明确指定，则被视为等于symbol)
   */
@@ -89,11 +89,11 @@ export interface SymbolInfo extends Symbol {
   /**
   * 交易所略称
   */
-  exchange: Exchange,
+  exchange: string,
   /**
   * 交易所略称
   */
-  listed_exchange: Exchange,
+  listed_exchange: string,
   /**
   * 时区
   */

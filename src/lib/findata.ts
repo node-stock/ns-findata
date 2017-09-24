@@ -1,37 +1,58 @@
-import { SymbolInfo, Market, Exchange, Symbol } from './types';
-import { Kdb } from './kdb';
+import { SymbolInfo, Market, Symbol } from './types';
+import { Kdb } from './api/kdb';
+import { Store as db } from 'ns-store';
+import { tryCatch, Util as util } from 'ns-common';
+import { filter } from 'lodash';
 
 /**
  * 财经数据实现类
  */
-export abstract class DataProvider implements IDataProvider {
+export class DataProvider implements IDataProvider {
   /**
   * 获取市场数据
   */
+  @tryCatch('获取市场数据')
   getMarkets() {
+    const markets: Market[] = [];
+    // 交易所
+    for (const exchange of db.data.ExchangeList) {
+      // 交易市场
+      const market = <Market>{
+        name: exchange.name,
+        submarkets: []
+      };
+      const marketList = filter(db.data.MarketList, { 'exchange': exchange.code });
+      for (const ml of marketList) {
+        market.submarkets.push({name: ml.name});
+        // 交易股票
+      }
+      markets.push(market);
+    }
+    // console.log(JSON.stringify(markets));
 
+    return markets;
+  }
+
+  @tryCatch('获取市场数据')
+  getMarketTest() {
+    console.log(db.data.ExchangeList);
     const markets: Market[] = [{
-      name: Exchange.TYO,
+      name: '', // Store.data.ExchangeList.TYO,
       submarkets: [{
         name: '全市場',
         symbols: this.getSymbolList()
       }]
     }];
-
-    return markets;
   }
 
   /**
   * 获取股票列表
   */
+  @tryCatch('获取股票列表')
   getSymbolList() {
     const obj: Symbol[] = [];
     return obj;
   }
-
-
-  abstract getBars(symbolInfo: SymbolInfo, resolution?: string, from?: number, to?: number): any
-  abstract getSymbolInfo(symbol: string): SymbolInfo | any
 }
 
 /**
@@ -43,7 +64,7 @@ export interface IDataProvider {
   /**
   * 获取市场数据
   */
-  getMarkets(): Market[];
+  getMarkets(): Market[] | Promise<Market[]>;
 
   /**
   * 获取股票列表
@@ -53,10 +74,10 @@ export interface IDataProvider {
   /**
   * 获取历史数据
   */
-  getBars(symbolInfo: SymbolInfo, resolution?: string, from?: number, to?: number): any,
+  // getBars(symbolInfo: SymbolInfo, resolution?: string, from?: number, to?: number): any,
 
   /**
    * 获取商品信息
    */
-  getSymbolInfo(symbol: string): SymbolInfo | any
+  // getSymbolInfo(symbol: string): SymbolInfo | any
 }

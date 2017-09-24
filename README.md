@@ -2,7 +2,7 @@
 
 # ns-findata
 
-node-stock数据包
+node-stock财经数据包
 
 ## 安装
 

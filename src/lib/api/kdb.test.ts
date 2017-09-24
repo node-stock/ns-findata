@@ -1,6 +1,9 @@
 import { Kdb } from './kdb';
-import { SymbolInfo, Bar } from './types';
+import { SymbolInfo, Bar } from '../types';
 import * as assert from 'power-assert';
+import { DataProvider } from '../findata';
+import { Log } from 'ns-common';
+
 
 const testGetSymbolInfo = async () => {
   const zz: SymbolInfo = <SymbolInfo>{};
@@ -20,8 +23,11 @@ const testGetBars = async () => {
 
 
 describe('Kdb数据接口', () => {
-
-  // it('测试获取历史数据', testGetBars);
+  const dataProvider = new DataProvider();
+  dataProvider.getMarkets();
+  Log.init(Log.category.system, Log.level.ALL);
+  dataProvider.getMarketTest();
+  it('测试获取历史数据', testGetBars);
   it('测试获取商品信息', testGetSymbolInfo);
 
 });

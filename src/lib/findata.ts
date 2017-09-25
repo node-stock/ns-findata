@@ -4,6 +4,34 @@ import { Store as db } from 'ns-store';
 import { tryCatch, Util as util } from 'ns-common';
 import { filter } from 'lodash';
 
+
+/**
+ * 财经数据接口
+ *
+ * @interface
+ */
+export interface IDataProvider {
+  /**
+  * 获取市场数据
+  */
+  getMarkets(): Market[] | Promise<Market[]>;
+
+  /**
+  * 获取股票列表
+  */
+  getSymbolList(): Symbol[];
+
+  /**
+  * 获取历史数据
+  */
+  // getBars(symbolInfo: SymbolInfo, resolution?: string, from?: number, to?: number): any,
+
+  /**
+   * 获取商品信息
+   */
+  // getSymbolInfo(symbol: string): SymbolInfo | any
+}
+
 /**
  * 财经数据实现类
  */
@@ -53,31 +81,4 @@ export class DataProvider implements IDataProvider {
     const obj: Symbol[] = [];
     return obj;
   }
-}
-
-/**
- * 财经数据接口
- *
- * @interface
- */
-export interface IDataProvider {
-  /**
-  * 获取市场数据
-  */
-  getMarkets(): Market[] | Promise<Market[]>;
-
-  /**
-  * 获取股票列表
-  */
-  getSymbolList(): Symbol[];
-
-  /**
-  * 获取历史数据
-  */
-  // getBars(symbolInfo: SymbolInfo, resolution?: string, from?: number, to?: number): any,
-
-  /**
-   * 获取商品信息
-   */
-  // getSymbolInfo(symbol: string): SymbolInfo | any
 }

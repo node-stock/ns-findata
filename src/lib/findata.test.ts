@@ -24,7 +24,7 @@ const testGetBars = async (done: any) => {
 
 
 // dataProvider.getMarkets();
-describe('findata数据接口', () => {
+/*describe('findata数据接口', () => {
   before(() => {
     console.log('测试预处理');
     // const config = require('../../config/config');
@@ -35,7 +35,7 @@ describe('findata数据接口', () => {
   });
   it('接口测试', function (done) {
     this.timeout(20000);
-    testGetBars(done);
+  //  testGetBars(done);
   });
   it('findAll查询数据', function (done) {
     // testFindAll(done);
@@ -49,3 +49,4 @@ describe('findata数据接口', () => {
   // it('测试获取商品信息', testGetSymbolInfo);
 
 });
+*/

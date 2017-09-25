@@ -24,10 +24,10 @@ const testGetBars = async () => {
 
 describe('Kdb数据接口', () => {
   const dataProvider = new DataProvider();
-  dataProvider.getMarkets();
+  // dataProvider.getMarkets();
   Log.init(Log.category.system, Log.level.ALL);
-  dataProvider.getMarketTest();
-  it('测试获取历史数据', testGetBars);
-  it('测试获取商品信息', testGetSymbolInfo);
+ // dataProvider.getMarketTest();
+//  it('测试获取历史数据', testGetBars);
+//  it('测试获取商品信息', testGetSymbolInfo);
 
 });

@@ -2,6 +2,7 @@ import { SymbolInfo, Bar } from '../types';
 import { Util, Log, tryCatch } from 'ns-common';
 
 const baseUrl = 'https://hesonogoma.com/stocks/';
+const authBaseUrl = 'https://trial:PW%4020170129@hesonogoma.com/stocks/';
 
 /**
  * 株価一覧表
@@ -136,6 +137,10 @@ export enum Data {
    */
   JsfPremiums = 'JsfPremiums',
   /**
+   * 信用取引残高データ
+   */
+  Margin = 'Margin',
+  /**
    * 銘柄基本データ（浮動株比率等）
    */
   BaseInfo = 'BaseInfo'
@@ -181,20 +186,15 @@ const DataType: { [attr: string]: any } = {
     desc: '日証金 逆日歩銘柄一覧データ',
     url: 'data/jsf-gyakuhibu-data.json'
   },
-  BaseInfo: {
-    desc: '銘柄基本データ（浮動株比率等）',
-    url: 'data/tosho-fund-and-others-stock-prices.json'
-  }
-}
-
-export const CsvType = {
   Margin: {
+    auth: true,
     desc: '信用取引残高データ',
-    url: 'download/csv/japan-all-stock-margin-transactions/weekly/japan-all-stock-margin-transactions.csv'
+    url: 'download/json/japan-all-stock-margin-transactions/weekly/japan-all-stock-margin-transactions.json'
   },
   BaseInfo: {
+    auth: true,
     desc: '銘柄基本データ（浮動株比率等）',
-    url: 'download/csv/japan-all-stock-information/monthly/shareholding-ratio.csv'
+    url: 'download/json/japan-all-stock-information/monthly/shareholding-ratio.json'
   }
 }
 
@@ -215,12 +215,17 @@ export class Hesonogoma {
   Data = Data;
 
   /**
-  * 获取历史数据
+  * 获取接口数据
   */
-  @tryCatch('获取历史数据')
-  getBars(type: Data) {
-    if (DataType[type]) {
-      console.log('xx:', DataType[type].url);
+  @tryCatch('获取接口数据')
+  async getFindInfo(url: string) {
+    if (url) {
+      const res = await Util.fetch(url);
+      const jsonRes: { [index: string]: any } = await res.json()
+      if (Object.keys(jsonRes).length !== 0) {
+        return jsonRes[Object.keys(jsonRes)[0]];
+      }
+      return null;
     }
   }
 
@@ -230,9 +235,8 @@ export class Hesonogoma {
   @tryCatch('株価一覧表を取得する')
   async getFindPriceInfo(type: Price) {
     if (PriceType[type]) {
-      const url = baseUrl + PriceType[type].url;
-      const res = await Util.fetch(url);
-      return await res.json();
+      const url = (PriceType[type].auth ? authBaseUrl : baseUrl) + PriceType[type].url;
+      return this.getFindInfo(url);
     }
   }
 
@@ -242,9 +246,8 @@ export class Hesonogoma {
   @tryCatch('投資指標データを取得する')
   async getFindDataInfo(type: Data) {
     if (DataType[type]) {
-      const url = baseUrl + DataType[type].url;
-      const res = await Util.fetch(url);
-      return await res.json();
+      const url = (DataType[type].auth ? authBaseUrl : baseUrl) + DataType[type].url;
+      return this.getFindInfo(url);
     }
   }
 }

@@ -6,19 +6,24 @@ const baseUrl = 'http://k-db.com/stocks/';
 
 /**
  * @class
- * @classdesc {@link http://k-db.com/stocks/|Kdb接口}
+ * @classdesc {@link http://k-db.com/stocks/ |Kdb接口}
  */
 export class Kdb {
 
   /**
   * 获取历史数据
   */
-  getBars(symbolInfo: SymbolInfo, resolution?: string, from?: number, to?: number) {
-
+  getHistory(symbol: string) {
+    let url = baseUrl + symbol;
+    if (url.indexOf('-T') === -1) {
+      url += '-T';
+    }
+    url += '?download=csv';
+    return Util.getCsvData(url);
   }
 
   /**
-   * 获取商品信息
+   * 获取商品信息(描述信息)
    */
   async getSymbolInfo(symbol: string) {
     let url = baseUrl + symbol;

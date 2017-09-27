@@ -5,11 +5,11 @@ import * as assert from 'power-assert';
 const hg: Hesonogoma = new Hesonogoma();
 const testGetFindDataInfo = async (done: any) => {
   const nikkei225 = await hg.getFindDataInfo(hg.Data.Nikkei225);
-  /*Log[Log.category.system].info(
+  Log[Log.category.system].info(
     'nikkei225:%s\n...\n%s',
     JSON.stringify(nikkei225[0], null, 2),
     JSON.stringify(nikkei225[nikkei225.length - 1], null, 2)
-  );*/
+  );
   assert.equal(225, nikkei225.length);
   done();
 }

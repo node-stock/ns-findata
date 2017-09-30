@@ -7,31 +7,31 @@ export enum SymbolType {
   /**
    * 股票
    */
-  stock = '股票',
+  stock = 'stock',
   /**
    * 指数
    */
-  index = '指数',
+  index = 'index',
   /**
    * 外汇
    */
-  forex = '外汇',
+  forex = 'forex',
   /**
    * 期货
    */
-  futures = '期货',
+  futures = 'futures',
   /**
    * 比特币
    */
-  bitcoin = '比特币',
+  bitcoin = 'bitcoin',
   /**
    * 价差期权
    */
-  spread = '价差期权',
+  spread = 'spread',
   /**
    * 差价合约
    */
-  cfd = '差价合约'
+  cfd = 'cfd'
 }
 
 /**
@@ -49,11 +49,15 @@ export interface Symbol {
   /**
    * 商品全称
    */
-  full_name: string,
+  full_name?: string,
   /**
-  * 交易所名
+  * 交易所略称
   */
   exchange: string,
+  /**
+  * 交易市场名|交易市场代码
+  */
+  market: string,
   /**
   * 商品的唯一标识符(ticker如果未明确指定，则被视为等于symbol)
   */
@@ -61,7 +65,7 @@ export interface Symbol {
   /**
   * 商品说明
   */
-  description: string,
+  description?: string,
   /**
   * 商品类型
   */
@@ -73,7 +77,7 @@ export interface Symbol {
   /**
   * 行业
   */
-  industry: string
+  industry?: string
 }
 
 /**
@@ -86,10 +90,6 @@ export interface SymbolInfo extends Symbol {
   * 交易时间
   */
   session: string,
-  /**
-  * 交易所略称
-  */
-  exchange: string,
   /**
   * 交易所略称
   */

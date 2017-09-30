@@ -1,4 +1,30 @@
 /**
+ * 市场映射列表
+ */
+export const MarketMap = [
+  {
+    code: '1stSection',
+    name: '東証一部'
+  },
+  {
+    code: '2ndSection',
+    name: '東証二部'
+  },
+  {
+    code: 'mothers',
+    name: '東証マザ'
+  },
+  {
+    code: 'jqs',
+    name: 'JQS'
+  },
+  {
+    code: 'jqg',
+    name: 'JQG'
+  }
+];
+
+/**
  * 株価一覧表
  */
 export enum HemaPrice {

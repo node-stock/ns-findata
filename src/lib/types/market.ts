@@ -39,6 +39,6 @@ export interface Market {
     /**
      * 商品数组
      */
-    symbols?: Symbol[]
+    symbols?: Symbol[] | undefined
   }[]
 }

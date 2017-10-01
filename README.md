@@ -9,3 +9,6 @@ node-stock财经数据包
 ```js
 npm install ns-findata --save
 ```
+
+## hesonogoma接口说明
+[连接](./src/lib/api/hesonogoma.md)

@@ -1,6 +1,6 @@
 {
   "name": "ns-findata",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "node-stock financial data module",
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "cheerio": "^1.0.0-rc.2",
     "lodash": "^4.17.4",
     "ns-common": "0.0.6",
-    "ns-store": "0.0.7"
+    "ns-store": "0.0.8"
   },
   "devDependencies": {
     "@types/cheerio": "0.22.2",
@@ -37,6 +37,7 @@
     "mysql2": "^1.4.2",
     "power-assert": "^1.4.4",
     "rimraf": "^2.6.2",
+    "sqlite3": "^3.1.13",
     "ts-node": "^3.3.0",
     "tslint": "^5.6.0",
     "typescript": "^2.4.2"

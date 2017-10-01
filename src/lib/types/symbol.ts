@@ -55,7 +55,7 @@ export interface Symbol {
   */
   exchange: string,
   /**
-  * 交易市场名|交易市场代码
+  * 交易市场名
   */
   market: string,
   /**

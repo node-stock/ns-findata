@@ -4,6 +4,7 @@ import * as assert from 'power-assert';
 import { DataProvider } from './findata';
 import { Log, Util } from 'ns-common';
 import { Store as db } from 'ns-store';
+import { filter } from 'lodash';
 
 
 const testGetSymbolList = async (done: () => void) => {
@@ -16,48 +17,39 @@ const testGetSymbolList = async (done: () => void) => {
       JSON.stringify(res[0], null, 2),
       JSON.stringify(res[res.length - 1], null, 2)
     );
+    console.log(res.length);
     assert(res.length !== 0)
-    done();
   }
+  done();
 }
-const testGetBars = async (done: () => void) => {
-  const url = 'https://hesonogoma.com/stocks/data/japan-all-stock-data.json';
-  const test = await Util.fetch(url);
-  const res = await test.text();
-  console.log(res);
+const testGetMarkets = async (done: () => void) => {
+  const findata = new DataProvider();
+  const markets = await findata.getMarkets();
+  if (markets) {
+    console.log(markets.length);
+    assert(markets.length !== 0)
+  }
   done();
 }
 
-
-
-// dataProvider.getMarkets();
 describe('findata数据接口', () => {
   before(async () => {
-    // const config = require('../../config/config');
-    // await db.init(config);
-    // await db.buildTable();
+    const config = require('../../config/config');
+    await db.init(config);
+    await db.buildTable();
     console.log('测试预处理');
-    // const dataProvider = new DataProvider();
-    // dataProvider.getMarkets();
     Log.init(Log.category.system, Log.level.ALL);
   });
-  it('测试获取股票列表', function(done) {
-    this.timeout(10000);
+  it('测试获取股票列表', function (done) {
+    this.timeout(20000);
     testGetSymbolList(done);
   });
-  /*
-  it('接口测试', function (done) {
+  it('测试获取市场数据', function (done) {
     this.timeout(20000);
-  //  testGetBars(done);
+    testGetMarkets(done);
   });
-  it('findAll查询数据', function (done) {
-    // testFindAll(done);
-  });
-  after(function () {
+  after(async () => {
+    await db.close();
     console.log('测试后处理');
-    // Store.close();
-  });*/
-  // dataProvider.getMarketTest();
-  // it('测试获取商品信息', testGetSymbolInfo);
-
+  });
 });

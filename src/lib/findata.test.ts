@@ -2,7 +2,6 @@ import { Kdb } from './api/kdb';
 import { SymbolInfo, Bar } from './types';
 import * as assert from 'power-assert';
 import { DataProvider } from './findata';
-import { Log, Util } from 'ns-common';
 import { Store as db } from 'ns-store';
 import { filter } from 'lodash';
 
@@ -38,7 +37,6 @@ describe('findata数据接口', () => {
     await db.init(config);
     await db.buildTable();
     console.log('测试预处理');
-    Log.init(Log.category.system, Log.level.ALL);
   });
   it('测试获取股票列表', function (done) {
     this.timeout(20000);

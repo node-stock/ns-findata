@@ -1,5 +1,5 @@
 import { Symbol, SymbolType, Bar, HemaType, HemaPrice, HemaData, MarketMap } from '../types';
-import { Util, Log, tryCatch } from 'ns-common';
+import { Util, tryCatch } from 'ns-common';
 import { Store } from 'ns-store';
 import { filter } from 'lodash';
 
@@ -65,9 +65,9 @@ export class Hesonogoma {
     let symbols = await this.getFindDataInfo(HemaData.All);
     symbols = filter(symbols, (symbol: string) => {
       return symbol[2] === '東証一部'
-          || symbol[2] ===  '東証二部'
-          || symbol[2] ===  'JQS'
-          || symbol[2] ===  '東証マザ';
+        || symbol[2] === '東証二部'
+        || symbol[2] === 'JQS'
+        || symbol[2] === '東証マザ';
     });
     const symbolInfoList = new Array();
     for (const sym of symbols) {

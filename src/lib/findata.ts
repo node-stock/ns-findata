@@ -2,12 +2,11 @@ process.env.debug = 'findata:*';
 import { Market, Symbol } from './types';
 import { Kdb, Hesonogoma } from './api';
 import { Store as db } from 'ns-store';
-import { tryCatch, Util as util, Log } from 'ns-common';
+import { tryCatch } from 'ns-common';
 import { filter } from 'lodash';
 import { Model, Sequelize } from 'sequelize-typescript';
 
 const config = require('../../config/config');
-Log.init(Log.category.system, Log.level.ALL);
 
 /**
  * 财经数据接口

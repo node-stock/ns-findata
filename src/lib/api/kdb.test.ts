@@ -2,7 +2,6 @@ import { Kdb } from './kdb';
 import { SymbolInfo, Bar } from '../types';
 import * as assert from 'power-assert';
 import { DataProvider } from '../findata';
-import { Log } from 'ns-common';
 
 
 const testGetSymbolInfo = async (done: () => void) => {
@@ -19,7 +18,7 @@ const testGetHistory = async (done: () => void) => {
   symbolInfo.symbol = '6553';
   const kdb = new Kdb();
   const res = await kdb.getHistory('6553')
-  Log[Log.category.system].info(
+  console.log(
     'getHistory:%s\n...\n%s',
     JSON.stringify(res[1], null, 2),
     JSON.stringify(res[res.length - 1], null, 2)
@@ -31,15 +30,11 @@ const testGetHistory = async (done: () => void) => {
 
 describe('Kdb数据接口', () => {
   const dataProvider = new DataProvider();
-  // dataProvider.getMarkets();
-  Log.init(Log.category.system, Log.level.ALL);
- // dataProvider.getMarketTest();
-//  it('测试获取历史数据', testGetBars);
-  it('测试获取商品信息', function(done) {
+  it('测试获取商品信息', function (done) {
     this.timeout(10000);
     testGetSymbolInfo(done);
   });
-  it('测试获取历史数据', function(done) {
+  it('测试获取历史数据', function (done) {
     this.timeout(10000);
     testGetHistory(done);
   });

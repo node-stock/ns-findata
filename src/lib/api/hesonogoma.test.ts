@@ -1,12 +1,11 @@
 process.env.debug = 'findata:hema';
 import { Hesonogoma } from './hesonogoma';
-import { Log } from 'ns-common';
 import * as assert from 'power-assert';
 
 const hg: Hesonogoma = new Hesonogoma();
 const testGetFindDataInfo = async (done: any) => {
   const nikkei225 = await hg.getFindDataInfo(hg.Data.Nikkei225);
-  Log.system.info(
+  console.log(
     'nikkei225:%s\n...\n%s',
     JSON.stringify(nikkei225[0], null, 2),
     JSON.stringify(nikkei225[nikkei225.length - 1], null, 2)
@@ -27,15 +26,15 @@ const testGetFindAuthInfo = async (done: any) => {
 }
 
 describe('Hesonogoma数据接口', () => {
-  it('测试获取日经225股票', function(done) {
+  it('测试获取日经225股票', function (done) {
     this.timeout(10000);
     testGetFindDataInfo(done);
   });
-  it('测试投資指標データ接口', function(done) {
+  it('测试投資指標データ接口', function (done) {
     this.timeout(10000);
     testGetFindPriceInfo(done);
   });
-  it('测试认证数据接口', function(done) {
+  it('测试认证数据接口', function (done) {
     this.timeout(10000);
     testGetFindAuthInfo(done);
   });

@@ -6,34 +6,8 @@ import { tryCatch } from 'ns-common';
 import { filter } from 'lodash';
 import { Model, Sequelize } from 'sequelize-typescript';
 
+const debug = require('debug')('findata:main');
 const config = require('../../config/config');
-
-/**
- * 财经数据接口
- *
- * @interface
- */
-export interface IDataProvider {
-  /**
-  * 获取市场数据
-  */
-  getMarkets(): Market[] | Promise<Market[]>;
-
-  /**
-  * 获取股票列表
-  */
-  getSymbolList(): Symbol[];
-
-  /**
-  * 获取历史数据
-  */
-  // getBars(symbolInfo: SymbolInfo, resolution?: string, from?: number, to?: number): any,
-
-  /**
-   * 获取商品信息
-   */
-  // getSymbolInfo(symbol: string): SymbolInfo | any
-}
 
 /**
  * 财经数据实现类
@@ -44,6 +18,7 @@ export class DataProvider {
   */
   @tryCatch('获取市场数据')
   async getMarkets() {
+    debug('getMarkets，获取市场数据方法[启动]');
     // 交易股票列表取得
     const symbolList: Symbol[] = await this.getSymbolList();
 
@@ -67,6 +42,7 @@ export class DataProvider {
       markets.push(market);
     }
 
+    debug('getMarkets，获取市场数据方法[终了]');
     return markets;
   }
 
@@ -75,12 +51,15 @@ export class DataProvider {
   */
   @tryCatch('获取股票列表')
   async getSymbolList(): Promise<Symbol[]> {
+    debug('getSymbolList，获取股票列表方法[启动]');
     const hesonogoma = new Hesonogoma();
     const count = await db.model.SymbolInfo.count();
-    // 数据库为找到股票信息
+    debug('SymbolInfo表数据个数: ', count);
+    // 数据库未找到股票信息
     if (count === 0) {
       // 通过api取数据
       const symbols = await hesonogoma.getTseStocks();
+      debug('数据库未找到股票信息,通过api获取数据个数: ', symbols.length);
       if (symbols && symbols.length !== 0) {
         await db.model.SymbolInfo.bulkCreate(symbols);
       }
@@ -117,6 +96,8 @@ export class DataProvider {
         sector: plainNode.se.name
       };
     });
+    debug('取得数据个数：', plainSymbolList.length);
+    debug('getSymbolList，获取股票列表方法[终了]');
     return plainSymbolList;
   }
 }

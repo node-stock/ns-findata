@@ -6,6 +6,14 @@ import { Store as db } from 'ns-store';
 import { filter } from 'lodash';
 
 
+const testBefore = async (done: () => void) => {
+  console.log('测试预处理');
+  const config = require('../../config/config');
+  await db.init(config);
+  // await db.buildTable();
+  done();
+};
+
 const testGetSymbolList = async (done: () => void) => {
 
   const findata = new DataProvider();
@@ -32,12 +40,10 @@ const testGetMarkets = async (done: () => void) => {
 }
 
 describe('findata数据接口', () => {
-  before(async () => {
-    const config = require('../../config/config');
-    await db.init(config);
-    await db.buildTable();
-    console.log('测试预处理');
-  });
+  before(function (done) {
+    this.timeout(20000)
+    testBefore(done);
+  })
   it('测试获取股票列表', function (done) {
     this.timeout(20000);
     testGetSymbolList(done);

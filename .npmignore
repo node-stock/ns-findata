@@ -12,6 +12,7 @@ npm-debug.log
 .gitignore
 .git
 .travis.yml
+.history
 appveyor.yml
 package-lock.json
 tsconfig.development.json

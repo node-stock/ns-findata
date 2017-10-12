@@ -1,6 +1,6 @@
 {
   "name": "ns-findata",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "node-stock financial data module",
   "repository": {
     "type": "git",
@@ -18,11 +18,12 @@
     "prepare": "cp config/config.pduc.json config/config.json && npm run rm && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "rimraf": "^2.6.2",
     "cheerio": "^1.0.0-rc.2",
     "lodash": "^4.17.4",
     "moment": "^2.19.0",
-    "ns-store": "0.0.13"
+    "ns-common": "0.0.11",
+    "ns-store": "0.0.14",
+    "rimraf": "^2.6.2"
   },
   "devDependencies": {
     "@types/cheerio": "0.22.2",

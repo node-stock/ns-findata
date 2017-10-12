@@ -10,7 +10,7 @@ const testBefore = async (done: () => void) => {
   console.log('测试预处理');
   const config = require('../../config/config');
   await db.init(config);
-  // await db.buildTable();
+  await db.buildTable();
   done();
 };
 
@@ -29,12 +29,22 @@ const testGetSymbolList = async (done: () => void) => {
   }
   done();
 }
+
 const testGetMarkets = async (done: () => void) => {
   const findata = new DataProvider();
   const markets = await findata.getMarkets();
   if (markets) {
     console.log(markets.length);
     assert(markets.length !== 0)
+  }
+  done();
+}
+
+const testGetLast20minBars = async (done: () => void) => {
+  const findata = new DataProvider();
+  const bars = await findata.getLast20minBar('6664');
+  if (bars) {
+    console.log(bars, ',len: ' + bars.length);
   }
   done();
 }
@@ -51,6 +61,10 @@ describe('findata数据接口', () => {
   it('测试获取市场数据', function (done) {
     this.timeout(20000);
     testGetMarkets(done);
+  });
+  it('测试获取最近20分钟的K线数据', function (done) {
+    this.timeout(20000);
+    done()// testGetLast20minBars(done);
   });
   after(async () => {
     await db.close();

@@ -1,6 +1,6 @@
 {
   "name": "ns-findata",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "node-stock financial data module",
   "repository": {
     "type": "git",

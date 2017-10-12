@@ -5,6 +5,7 @@ import { Store as db } from 'ns-store';
 import { tryCatch } from 'ns-common';
 import { filter } from 'lodash';
 import { Model, Sequelize } from 'sequelize-typescript';
+import * as moment from 'moment';
 
 const debug = require('debug')('findata:main');
 const config = require('../../config/config');
@@ -99,6 +100,47 @@ export class DataProvider {
     debug('取得数据个数：', plainSymbolList.length);
     debug('getSymbolList，获取股票列表方法[终了]');
     return plainSymbolList;
+  }
+
+  /**
+   * 获取最近20分钟的K线数据
+   * 按最近30分钟为范围，查找5分钟K线
+   */
+  async getLast20minBar(symbol: string) {
+    return await db.sequelize.query(`
+      SELECT
+        t2.time,t2.open,t2.high,t2.low,t1.text close
+      FROM
+        dde t1
+      JOIN (
+        SELECT
+          CONCAT(UNIX_TIMESTAMP(DATE_FORMAT(
+            FLOOR(
+              STR_TO_DATE(created_at, '%Y-%m-%d %T') / 500
+            ) * 500,
+            '%Y-%m-%d %h:%i:%s'
+          )),'000') time,  text open,max(text) high, min(text) low, MAX(created_at) last_time
+        FROM
+          dde
+        WHERE
+          item = '現在値'
+          AND topic = '${symbol}'
+          AND created_at LIKE '${moment().format('YYYY-MM-DD')}%'
+          AND (
+            STR_TO_DATE(created_at, '%Y-%m-%d %T') BETWEEN DATE_SUB(now(), INTERVAL 30 MINUTE)
+            AND now()
+          )
+        GROUP BY
+          DATE_FORMAT(
+            FLOOR(
+              STR_TO_DATE(created_at, '%Y-%m-%d %T') / 500
+            ) * 500,
+            '%H%i'
+          )
+      ORDER BY
+        created_at DESC
+      ) t2 on t1.created_at = t2.last_time
+    ` , { type: db.sequelize.QueryTypes.SELECT });
   }
 }
 

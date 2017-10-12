@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/node-stock/ns-findata.svg?branch=master)](https://travis-ci.org/node-stock/ns-findata.svg)
+[![Build Status](https://travis-ci.org/node-stock/ns-findata.svg?branch=master)](https://www.travis-ci.org/node-stock/ns-findata)
 
 # ns-findata
 

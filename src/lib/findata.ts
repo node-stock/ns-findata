@@ -114,6 +114,7 @@ export class DataProvider {
         dde t1
       JOIN (
         SELECT
+          topic,
           CONCAT(UNIX_TIMESTAMP(DATE_FORMAT(
             FLOOR(
               STR_TO_DATE(created_at, '%Y-%m-%d %T') / 500
@@ -139,7 +140,7 @@ export class DataProvider {
           )
       ORDER BY
         created_at DESC
-      ) t2 on t1.created_at = t2.last_time
+      ) t2 on t1.created_at = t2.last_time AND t1.item = '現在値' AND t1.topic = t2.topic
     ` , { type: db.sequelize.QueryTypes.SELECT });
   }
 }

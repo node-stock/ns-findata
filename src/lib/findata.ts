@@ -1,11 +1,12 @@
 process.env.debug = 'findata:*';
-import { Market, Symbol } from './types';
+import { Market, Symbol, Bar } from './types';
 import { Kdb, Hesonogoma } from './api';
 import { Store as db } from 'ns-store';
 import { tryCatch } from 'ns-common';
-import { filter } from 'lodash';
+import { filter, chain } from 'lodash';
 import { Model, Sequelize } from 'sequelize-typescript';
 import * as moment from 'moment';
+import { Stochastic } from 'technicalindicators';
 
 const debug = require('debug')('findata:main');
 const config = require('../../config/config');
@@ -103,45 +104,75 @@ export class DataProvider {
   }
 
   /**
-   * 获取最近20分钟的K线数据
-   * 按最近30分钟为范围，查找5分钟K线
+   * 获取最近半小时的5分钟K线数据
    */
-  async getLast20minBar(symbol: string) {
-    return await db.sequelize.query(`
-      SELECT
-        t2.time,t2.open,t2.high,t2.low,t1.text close
-      FROM
-        dde t1
-      JOIN (
+  getLast5minBar(symbol: string) {
+    return this.get5minBar({ symbol, date: moment().format('YYYY-MM-DD') });
+  }
+
+  async get5minBar(opt: { symbol: string, date: string }) {
+    let last30min = '';
+    if (opt.date === moment().format('YYYY-MM-DD')) {
+      last30min = `
+        AND (
+          STR_TO_DATE(created_at, '%Y-%m-%d %T') BETWEEN DATE_SUB(now(), INTERVAL 30 MINUTE)
+          AND now()
+        )
+      `;
+    }
+    return db.sequelize.query(`
         SELECT
-          topic,
-          CONCAT(UNIX_TIMESTAMP(DATE_FORMAT(
-            FLOOR(
-              STR_TO_DATE(created_at, '%Y-%m-%d %T') / 500
-            ) * 500,
-            '%Y-%m-%d %h:%i:%s'
-          )),'000') time,  text open,max(text) high, min(text) low, MAX(created_at) last_time
+          t2.time,t2.open,t2.high,t2.low,t1.text close
         FROM
-          dde
-        WHERE
-          item = '現在値'
-          AND topic = '${symbol}'
-          AND created_at LIKE '${moment().format('YYYY-MM-DD')}%'
-          AND (
-            STR_TO_DATE(created_at, '%Y-%m-%d %T') BETWEEN DATE_SUB(now(), INTERVAL 30 MINUTE)
-            AND now()
-          )
-        GROUP BY
-          DATE_FORMAT(
-            FLOOR(
-              STR_TO_DATE(created_at, '%Y-%m-%d %T') / 500
-            ) * 500,
-            '%H%i'
-          )
-      ORDER BY
-        created_at DESC
-      ) t2 on t1.created_at = t2.last_time AND t1.item = '現在値' AND t1.topic = t2.topic
+          dde t1
+        JOIN (
+          SELECT
+            topic,
+            CONCAT(UNIX_TIMESTAMP(DATE_FORMAT(
+              FLOOR(
+                STR_TO_DATE(created_at, '%Y-%m-%d %T') / 500
+              ) * 500,
+              '%Y-%m-%d %h:%i:%s'
+            )),'000') time,  text open,max(text) high, min(text) low, MAX(created_at) last_time
+          FROM
+            dde
+          WHERE
+            item = '現在値'
+            AND topic = '${opt.symbol}.T'
+            AND created_at LIKE '${opt.date}%'
+            ${last30min}
+          GROUP BY
+            DATE_FORMAT(
+              FLOOR(
+                STR_TO_DATE(created_at, '%Y-%m-%d %T') / 500
+              ) * 500,
+              '%H%i'
+            )
+        ORDER BY
+          created_at DESC
+        ) t2 on t1.created_at = t2.last_time AND t1.item = '現在値' AND t1.topic = t2.topic
     ` , { type: db.sequelize.QueryTypes.SELECT });
+  }
+
+  getStochastic(his: Bar[]): { k: number; d: number; }[] {
+    const closeList = chain(his).map((bar: Bar) => {
+      return bar.close;
+    }).value();
+    const lowList = chain(his).map((bar: Bar) => {
+      return bar.low;
+    }).value();
+    const highList = chain(his).map((bar: Bar) => {
+      return bar.high;
+    }).value();
+
+    const input = {
+      high: highList,
+      low: lowList,
+      close: closeList,
+      period: 9,
+      signalPeriod: 3
+    };
+    return Stochastic.calculate(input);
   }
 }
 

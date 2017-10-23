@@ -5,6 +5,7 @@ import { DataProvider } from './findata';
 import { Store as db } from 'ns-store';
 import { filter } from 'lodash';
 
+const findata = new DataProvider();
 const testBefore = async (done: () => void) => {
   console.log('测试预处理');
   const config = require('../../config/config');
@@ -15,7 +16,6 @@ const testBefore = async (done: () => void) => {
 
 const testGetSymbolList = async (done: () => void) => {
 
-  const findata = new DataProvider();
   const res = await findata.getSymbolList();
   if (res) {
     console.log(
@@ -30,7 +30,6 @@ const testGetSymbolList = async (done: () => void) => {
 }
 
 const testGetMarkets = async (done: () => void) => {
-  const findata = new DataProvider();
   const markets = await findata.getMarkets();
   if (markets) {
     console.log(markets.length);
@@ -40,7 +39,6 @@ const testGetMarkets = async (done: () => void) => {
 }
 
 const testGetLast5minBars = async (done: () => void) => {
-  const findata = new DataProvider();
   const bars = await findata.getLast5minBar('6664');
   if (bars) {
     console.log(bars, ',len: ' + bars.length);
@@ -49,7 +47,6 @@ const testGetLast5minBars = async (done: () => void) => {
 }
 
 const testGet5minBars = async (done: () => void) => {
-  const findata = new DataProvider();
   const bars = await findata.get5minBar({ symbol: '6664', date: '2017-10-13' });
   if (bars) {
     console.log(
@@ -64,7 +61,24 @@ const testGet5minBars = async (done: () => void) => {
 
 
 const testGetStochastic = () => {
-  // TODO
+  const bars: Bar[] = [
+    { open: 2010, low: 1980, high: 2080, close: 2050 },
+    { open: 2020, low: 1990, high: 2090, close: 2060 },
+    { open: 2015, low: 1985, high: 2085, close: 2056 },
+    { open: 2010, low: 1980, high: 2080, close: 2050 },
+    { open: 2015, low: 1985, high: 2085, close: 2056 },
+    { open: 2010, low: 1980, high: 2080, close: 2050 },
+    { open: 2015, low: 1985, high: 2085, close: 2056 },
+    { open: 2010, low: 1980, high: 2080, close: 2050 },
+    { open: 2015, low: 1985, high: 2085, close: 2056 },
+    { open: 2010, low: 1980, high: 2080, close: 2050 },
+    { open: 2015, low: 1985, high: 2085, close: 2056 },
+    { open: 2010, low: 1980, high: 2080, close: 2050 }
+  ];
+
+  const kdList = findata.getStochastic(bars);
+  assert(kdList.length !== 0);
+  console.log('kdList:', kdList);
 }
 
 describe('findata数据接口', () => {
@@ -79,15 +93,17 @@ describe('findata数据接口', () => {
   it('测试获取市场数据', function (done) {
     this.timeout(20000);
     testGetMarkets(done);
-  }); /*
+  });
+  /*
   it('测试获取最近半小时的5分钟K线数据', function (done) {
     this.timeout(20000);
-    testGetLast5minBars(done); // done()
+    testGetLast5minBars(done);
   });
   it('测试获取5分钟K线数据', function (done) {
     this.timeout(20000);
-    testGet5minBars(done); // done()
+    testGet5minBars(done);
   });*/
+  it('测试获取KD值', testGetStochastic);
   after(async () => {
     await db.close();
     console.log('测试后处理');

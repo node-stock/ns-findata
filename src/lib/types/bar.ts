@@ -59,7 +59,7 @@ export interface Bar {
   /**
   * K线时间. unix时间戳 (UTC)
   */
-  time: number,
+  time?: number,
   /**
   * K线格式化时间. (YYYY-MM-DD)
   */
@@ -83,7 +83,7 @@ export interface Bar {
   /**
   * 成交量
   */
-  volume: number
+  volume?: number
 }
 
 /**
@@ -93,13 +93,9 @@ export interface Bar {
  */
 export interface ProBar extends Bar {
   /**
-  * K线格式化时间. (YYYY-MM-DD)
-  */
-  date: string,
-  /**
   * 成交额
   */
-  turnover: number,
+  turnover?: number,
   /**
   * 趋势
   */

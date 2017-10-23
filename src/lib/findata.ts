@@ -1,9 +1,9 @@
 process.env.debug = 'findata:*';
-import { Market, Symbol, Bar } from './types';
+import { Market, Symbol, Bar, ProBar } from './types';
 import { Kdb, Hesonogoma } from './api';
 import { Store as db } from 'ns-store';
 import { tryCatch } from 'ns-common';
-import { filter, chain } from 'lodash';
+import { filter } from 'lodash';
 import { Model, Sequelize } from 'sequelize-typescript';
 import * as moment from 'moment';
 import { Stochastic } from 'technicalindicators';
@@ -154,16 +154,16 @@ export class DataProvider {
     ` , { type: db.sequelize.QueryTypes.SELECT });
   }
 
-  getStochastic(his: Bar[]): { k: number; d: number; }[] {
-    const closeList = chain(his).map((bar: Bar) => {
-      return bar.close;
-    }).value();
-    const lowList = chain(his).map((bar: Bar) => {
-      return bar.low;
-    }).value();
-    const highList = chain(his).map((bar: Bar) => {
-      return bar.high;
-    }).value();
+  getStochastic(bars: Bar[]) {
+
+    const closeList: number[] = [];
+    const lowList: number[] = [];
+    const highList: number[] = [];
+    bars.forEach(bar => {
+      closeList.push(bar.close);
+      lowList.push(bar.low);
+      highList.push(bar.high);
+    });
 
     const input = {
       high: highList,
@@ -172,7 +172,20 @@ export class DataProvider {
       period: 9,
       signalPeriod: 3
     };
-    return Stochastic.calculate(input);
+    const kdList: { k: number; d: number; }[] = Stochastic.calculate(input);
+    // 只截取算出kd的数组
+    let proBars: ProBar[] = bars.slice(bars.length - kdList.length, bars.length);
+    // 四舍五入，去掉kd小数点
+    proBars = proBars.map((bar, i) => {
+      if (kdList[i].k) {
+        bar.k = Math.round(kdList[i].k);
+      }
+      if (kdList[i].d) {
+        bar.d = Math.round(kdList[i].d);
+      }
+      return bar;
+    });
+    return proBars;
   }
 }
 

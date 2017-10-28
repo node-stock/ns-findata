@@ -2,7 +2,6 @@ process.env.debug = 'findata:gapi';
 import { GoogleFinance } from './google-finance';
 import * as assert from 'power-assert';
 
-const gapi = new GoogleFinance();
 const testGetHistory = async (done: any) => {
   const opt = {
     q: '6553',
@@ -10,7 +9,7 @@ const testGetHistory = async (done: any) => {
     p: '6M',
     i: 86400
   };
-  const stock = await gapi.getHistory(opt);
+  const stock = await GoogleFinance.getHistory(opt);
   console.log(
     'stock:%s\n...\n%s',
     JSON.stringify(stock[0], null, 2),

@@ -1,4 +1,5 @@
-import { Symbol, SymbolType, Bar, HemaType, HemaPrice, HemaData, MarketMap } from '../types';
+import { HemaType, HemaPrice, HemaData, MarketMap } from '../types';
+import { Symbol, SymbolType, Bar } from 'ns-types';
 import { Util, tryCatch } from 'ns-common';
 import { Store } from 'ns-store';
 import { filter } from 'lodash';

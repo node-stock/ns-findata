@@ -1,6 +1,6 @@
 process.env.debug = 'findata:*';
-import { Market, Symbol, Bar, ProBar } from './types';
 import { Kdb, Hesonogoma } from './api';
+import { Market, Symbol, Bar, ProBar } from 'ns-types';
 import { Store as db } from 'ns-store';
 import { tryCatch } from 'ns-common';
 import { filter } from 'lodash';

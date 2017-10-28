@@ -1,5 +1,5 @@
 import { Kdb } from './api/kdb';
-import { SymbolInfo, Bar } from './types';
+import { SymbolInfo, Bar } from 'ns-types';
 import * as assert from 'power-assert';
 import { DataProvider } from './findata';
 import { Store as db } from 'ns-store';

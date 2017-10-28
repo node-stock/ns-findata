@@ -1,6 +1,6 @@
 {
   "name": "ns-findata",
-  "version": "0.0.9",
+  "version": "0.0.12",
   "description": "node-stock financial data module",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "moment": "^2.19.0",
     "ns-common": "0.0.11",
     "ns-store": "0.0.14",
-    "rimraf": "^2.6.2",
+    "ns-types": "0.0.2",
     "technicalindicators": "^1.0.20"
   },
   "devDependencies": {
@@ -33,6 +33,7 @@
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.0.20",
     "@types/power-assert": "^1.4.29",
+    "rimraf": "^2.6.2",
     "config": "^1.26.1",
     "debug": "^3.1.0",
     "intelli-espower-loader": "^1.0.1",

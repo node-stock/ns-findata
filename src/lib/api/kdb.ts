@@ -1,4 +1,4 @@
-import { SymbolInfo, Bar } from '../types';
+import { SymbolInfo, Bar } from 'ns-types';
 import { Util } from 'ns-common';
 import * as cio from 'cheerio';
 

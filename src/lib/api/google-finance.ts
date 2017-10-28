@@ -15,7 +15,7 @@ export class GoogleFinance {
   /**
   * 获取历史数据
   */
-  async getHistory(reqParam: ReqParam): Promise<GApiOutPut[]> {
+  static async getHistory(reqParam: ReqParam): Promise<GApiOutPut[]> {
     if (!reqParam.f) {
       reqParam.f = 'd,o,c,h,l,v';
     }

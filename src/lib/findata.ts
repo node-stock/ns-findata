@@ -1,5 +1,5 @@
 process.env.debug = 'findata:*';
-import { Kdb, Hesonogoma } from './api';
+import { Kdb, Hesonogoma, GoogleFinance } from './api';
 import { Market, Symbol, Bar, ProBar } from 'ns-types';
 import { Store as db } from 'ns-store';
 import { tryCatch } from 'ns-common';
@@ -189,4 +189,4 @@ export class DataProvider {
   }
 }
 
-export { Kdb, Hesonogoma };
+export { Kdb, Hesonogoma, GoogleFinance };

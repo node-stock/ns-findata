@@ -104,8 +104,8 @@ export class DataProvider {
   /**
    * 获取最近半小时的5分钟K线数据
    */
-  getLast5minBar(symbol: string) {
-    return this.get5minBar({ symbol, date: moment().format('YYYY-MM-DD') });
+  async getLast5minBar(symbol: string) {
+    return await this.get5minBar({ symbol, date: moment().format('YYYY-MM-DD') });
   }
 
   async get5minBar(opt: { symbol: string, date: string }) {
@@ -118,7 +118,7 @@ export class DataProvider {
         )
       `;
     }
-    return db.sequelize.query(`
+    const res: Bar[] = await db.sequelize.query(`
         SELECT
           t2.time,t2.open,t2.high,t2.low,t1.text close
         FROM
@@ -150,6 +150,9 @@ export class DataProvider {
           created_at DESC
         ) t2 on t1.created_at = t2.last_time AND t1.item = '現在値' AND t1.topic = t2.topic
     ` , { type: db.sequelize.QueryTypes.SELECT });
+
+    // 过滤数组
+    return res.filter((bar) => bar.close);
   }
 
   getStochastic(bars: Bar[]) {

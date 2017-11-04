@@ -48,7 +48,7 @@ const testGetLast5minBars = async (done: () => void) => {
 }
 
 const testGet5minBars = async (done: () => void) => {
-  const bars = await findata.get5minBar({ symbol: '6664', date: '2017-10-13' });
+  const bars = await findata.get5minBar({ symbol: '6664', date: '2017-11-02' });
   if (bars) {
     console.log(
       '%s\n...\n%s',

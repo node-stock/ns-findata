@@ -10,8 +10,8 @@ const testBefore = async (done: () => void) => {
   process.env.debug = 'findata:*';
   console.log('测试预处理');
   const config = require('config');
-  await db.init(config.store);
-  await db.buildTable();
+  await findata.init(config);
+  // await db.buildTable();
   done();
 };
 
@@ -106,7 +106,7 @@ describe('findata数据接口', () => {
   });
   it('测试获取KD值', testGetStochastic);
   after(async () => {
-    await db.close();
+    await findata.close();
     console.log('测试后处理');
   });
 });

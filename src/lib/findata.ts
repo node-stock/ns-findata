@@ -6,6 +6,7 @@ import { filter } from 'lodash';
 import { Model, Sequelize } from 'sequelize-typescript';
 import * as moment from 'moment';
 import { Stochastic } from 'technicalindicators';
+import * as assert from 'power-assert';
 
 const debug = require('debug')('findata:main');
 
@@ -13,6 +14,17 @@ const debug = require('debug')('findata:main');
  * 财经数据实现类
  */
 export class DataProvider {
+
+  async init(config: { [Attr: string]: any }) {
+    assert(config, 'config required.');
+    assert(config.store, 'config.store required.');
+    await db.init(config.store);
+  }
+
+  async close() {
+    await db.close();
+  }
+
   /**
   * 获取市场数据
   */

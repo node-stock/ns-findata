@@ -3,5 +3,11 @@ language: node_js
 node_js:
   - "8"
   
+test:
+  adapter: mysql2
+  database: test
+  username: travis
+  encoding: utf8
+
 before_script:
 - mysql -u root -e 'create database test;'

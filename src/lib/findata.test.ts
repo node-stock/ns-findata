@@ -7,9 +7,10 @@ import { filter } from 'lodash';
 
 const findata = new DataProvider();
 const testBefore = async (done: () => void) => {
+  process.env.debug = 'findata:*';
   console.log('测试预处理');
-  const config = require('../../config/config');
-  await db.init(config);
+  const config = require('config');
+  await db.init(config.store);
   await db.buildTable();
   done();
 };
@@ -83,7 +84,7 @@ const testGetStochastic = () => {
 
 describe('findata数据接口', () => {
   before(function (done) {
-    this.timeout(20000)
+    this.timeout(30000)
     testBefore(done);
   })
   it('测试获取股票列表', function (done) {
@@ -94,7 +95,7 @@ describe('findata数据接口', () => {
     this.timeout(20000);
     testGetMarkets(done);
   });
-  /*
+
   it('测试获取最近半小时的5分钟K线数据', function (done) {
     this.timeout(20000);
     testGetLast5minBars(done);
@@ -102,7 +103,7 @@ describe('findata数据接口', () => {
   it('测试获取5分钟K线数据', function (done) {
     this.timeout(20000);
     testGet5minBars(done);
-  });*/
+  });
   it('测试获取KD值', testGetStochastic);
   after(async () => {
     await db.close();

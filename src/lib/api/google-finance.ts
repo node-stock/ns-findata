@@ -4,7 +4,7 @@ import * as querystring from 'querystring';
 import * as moment from 'moment';
 const debug = require('debug')('findata:gapi');
 
-const baseUrl = 'https://www.google.com/finance/getprices?';
+const baseUrl = 'https://finance.google.com/finance/getprices?';
 
 /**
  * @class

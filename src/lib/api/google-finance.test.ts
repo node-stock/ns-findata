@@ -1,8 +1,8 @@
-process.env.debug = 'findata:gapi';
 import { GoogleFinance } from './google-finance';
 import * as assert from 'power-assert';
 
 const testGetHistory = async (done: any) => {
+  process.env.debug = 'findata:gapi';
   const opt = {
     q: '6553',
     x: 'TYO',

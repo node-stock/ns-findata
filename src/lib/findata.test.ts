@@ -5,12 +5,12 @@ import { DataProvider } from './findata';
 import { Store as db } from 'ns-store';
 import { filter } from 'lodash';
 
-const findata = new DataProvider();
+const config = require('config');
+const findata = new DataProvider(config.store);
 const testBefore = async (done: () => void) => {
   process.env.debug = 'findata:*';
   console.log('测试预处理');
-  const config = require('config');
-  await findata.init(config);
+  await findata.init();
   // await db.buildTable();
   done();
 };

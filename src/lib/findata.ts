@@ -3,7 +3,7 @@ import { Market, Symbol, Bar, ProBar } from 'ns-types';
 import { Store as db } from 'ns-store';
 import { tryCatch } from 'ns-common';
 import { filter } from 'lodash';
-import { Model, Sequelize } from 'sequelize-typescript';
+import { Model, Sequelize, ISequelizeConfig } from 'sequelize-typescript';
 import * as moment from 'moment';
 import { Stochastic } from 'technicalindicators';
 import * as assert from 'power-assert';
@@ -15,10 +15,16 @@ const debug = require('debug')('findata:main');
  */
 export class DataProvider {
 
-  async init(config: { [Attr: string]: any }) {
+  config: ISequelizeConfig;
+
+  constructor(config: { [Attr: string]: any }) {
     assert(config, 'config required.');
-    assert(config.store, 'config.store required.');
-    await db.init(config.store);
+    assert(config.database, 'config.database required.');
+    this.config = <ISequelizeConfig>config;
+  }
+
+  async init() {
+    await db.init(this.config);
   }
 
   async close() {

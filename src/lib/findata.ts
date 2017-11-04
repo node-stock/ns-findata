@@ -1,4 +1,3 @@
-process.env.debug = 'findata:*';
 import { Kdb, Hesonogoma, GoogleFinance } from './api';
 import { Market, Symbol, Bar, ProBar } from 'ns-types';
 import { Store as db } from 'ns-store';
@@ -9,7 +8,6 @@ import * as moment from 'moment';
 import { Stochastic } from 'technicalindicators';
 
 const debug = require('debug')('findata:main');
-const config = require('../../config/config');
 
 /**
  * 财经数据实现类

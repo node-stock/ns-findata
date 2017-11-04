@@ -3,7 +3,13 @@ import { Util } from 'ns-common';
 import * as cio from 'cheerio';
 
 const baseUrl = 'http://k-db.com/stocks/';
-
+export enum Timeframe {
+  M5 = '5m',
+  M15 = '15m',
+  M30 = '30m',
+  H1 = '1h',
+  H4 = '4h'
+}
 /**
  * @class
  * @classdesc {@link http://k-db.com/stocks/ |Kdb接口}
@@ -13,10 +19,13 @@ export class Kdb {
   /**
   * 获取历史数据
   */
-  getHistory(symbol: string) {
+  getHistory(symbol: string, timeframe?: Timeframe) {
     let url = baseUrl + symbol;
     if (url.indexOf('-T') === -1) {
       url += '-T';
+    }
+    if (timeframe) {
+      url += '/' + timeframe
     }
     url += '?download=csv';
     return Util.getCsvData(url);

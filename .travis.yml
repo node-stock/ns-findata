@@ -10,4 +10,4 @@ test:
   encoding: utf8
 
 before_script:
-- mysql -u root -e 'create database test;'
+- mysql -u root -e 'create database test character set utf8 collate utf8_general_ci;'

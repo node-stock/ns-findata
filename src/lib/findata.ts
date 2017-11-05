@@ -155,7 +155,7 @@ export class DataProvider {
           WHERE
             item = '現在値'
             AND topic = '${opt.symbol}.T'
-            AND created_at LIKE '${opt.date}%'
+            AND date = '${opt.date}'
             ${last30min}
           GROUP BY
             DATE_FORMAT(
@@ -166,7 +166,11 @@ export class DataProvider {
             )
         ORDER BY
           created_at DESC
-        ) t2 on t1.created_at = t2.last_time AND t1.item = '現在値' AND t1.topic = t2.topic
+        ) t2 on t1.created_at = t2.last_time
+        WHERE
+          t1.item = '現在値'
+          AND t1.topic = '${opt.symbol}.T'
+          AND t1.date = '${opt.date}'
     ` , { type: db.sequelize.QueryTypes.SELECT });
 
     // 过滤数组

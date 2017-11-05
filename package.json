@@ -1,6 +1,6 @@
 {
   "name": "ns-findata",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "node-stock financial data module",
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.19.0",
     "ns-common": "0.0.11",
-    "ns-store": "0.0.23",
+    "ns-store": "0.0.24",
     "ns-types": "0.0.8",
     "quandl": "0.0.6",
     "technicalindicators": "^1.0.20"

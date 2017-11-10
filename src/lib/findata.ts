@@ -21,6 +21,7 @@ export class DataProvider {
     assert(config, 'config required.');
     assert(config.database, 'config.database required.');
     this.config = <ISequelizeConfig>config;
+    this.init();
   }
 
   async init() {
@@ -174,7 +175,7 @@ export class DataProvider {
     ` , { type: db.sequelize.QueryTypes.SELECT });
 
     // 过滤数组
-    return res.filter((bar) => bar.close);
+    return await res.filter((bar) => bar.close);
   }
 
   getStochastic(bars: Bar[]) {

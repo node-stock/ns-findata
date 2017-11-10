@@ -10,7 +10,6 @@ const findata = new DataProvider(config.store);
 const testBefore = async (done: () => void) => {
   process.env.debug = 'findata:*';
   console.log('测试预处理');
-  await findata.init();
   // await db.buildTable();
   done();
 };

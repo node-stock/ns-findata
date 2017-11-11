@@ -17,11 +17,12 @@ export class DataProvider {
 
   config: ISequelizeConfig;
 
-  constructor(config: { [Attr: string]: any }) {
-    assert(config, 'config required.');
-    assert(config.database, 'config.database required.');
-    this.config = <ISequelizeConfig>config;
-    this.init();
+  constructor(config?: { [Attr: string]: any }) {
+    if (config) {
+      assert(config.database, 'config.database required.');
+      this.config = <ISequelizeConfig>config;
+      this.init();
+    }
   }
 
   async init() {

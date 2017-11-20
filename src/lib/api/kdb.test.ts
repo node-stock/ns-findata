@@ -1,7 +1,6 @@
 import { Kdb } from './kdb';
 import { SymbolInfo, Bar } from 'ns-types';
 import * as assert from 'power-assert';
-import { DataProvider } from '../findata';
 
 
 const testGetSymbolInfo = async (done: () => void) => {
@@ -29,7 +28,6 @@ const testGetHistory = async (done: () => void) => {
 
 
 describe('Kdb数据接口', () => {
-  const dataProvider = new DataProvider();
   it('测试获取商品信息', function (done) {
     this.timeout(10000);
     testGetSymbolInfo(done);

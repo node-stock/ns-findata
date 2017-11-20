@@ -11,3 +11,4 @@ test:
 
 before_script:
 - mysql -u root -e 'create database test character set utf8 collate utf8_general_ci;'
+- mysql -u root test < config/init.sql

@@ -5,13 +5,12 @@ import { DataProvider } from './findata';
 import { Store as db } from 'ns-store';
 import { filter } from 'lodash';
 
-const findata = new DataProvider();
+const config = require('config');
+const findata = new DataProvider(config.store);
 const testBefore = async (done: () => void) => {
   process.env.debug = 'findata:*';
   console.log('测试预处理');
-  const config = require('config');
-  await db.init(config.store);
-  await db.buildTable();
+  // await db.buildTable();
   done();
 };
 
@@ -48,7 +47,7 @@ const testGetLast5minBars = async (done: () => void) => {
 }
 
 const testGet5minBars = async (done: () => void) => {
-  const bars = await findata.get5minBar({ symbol: '6664', date: '2017-10-13' });
+  const bars = await findata.get5minBar({ symbol: '6664', date: '2017-11-02' });
   if (bars) {
     console.log(
       '%s\n...\n%s',
@@ -106,7 +105,7 @@ describe('findata数据接口', () => {
   });
   it('测试获取KD值', testGetStochastic);
   after(async () => {
-    await db.close();
+    await findata.close();
     console.log('测试后处理');
   });
 });

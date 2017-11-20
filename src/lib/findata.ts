@@ -3,9 +3,10 @@ import { Market, Symbol, Bar, ProBar } from 'ns-types';
 import { Store as db } from 'ns-store';
 import { tryCatch } from 'ns-common';
 import { filter } from 'lodash';
-import { Model, Sequelize } from 'sequelize-typescript';
+import { Model, Sequelize, ISequelizeConfig } from 'sequelize-typescript';
 import * as moment from 'moment';
 import { Stochastic } from 'technicalindicators';
+import * as assert from 'power-assert';
 
 const debug = require('debug')('findata:main');
 
@@ -13,6 +14,25 @@ const debug = require('debug')('findata:main');
  * 财经数据实现类
  */
 export class DataProvider {
+
+  config: ISequelizeConfig;
+
+  constructor(config?: { [Attr: string]: any }) {
+    if (config) {
+      assert(config.database, 'config.database required.');
+      this.config = <ISequelizeConfig>config;
+      this.init();
+    }
+  }
+
+  async init() {
+    await db.init(this.config);
+  }
+
+  async close() {
+    await db.close();
+  }
+
   /**
   * 获取市场数据
   */
@@ -104,8 +124,8 @@ export class DataProvider {
   /**
    * 获取最近半小时的5分钟K线数据
    */
-  getLast5minBar(symbol: string) {
-    return this.get5minBar({ symbol, date: moment().format('YYYY-MM-DD') });
+  async getLast5minBar(symbol: string) {
+    return await this.get5minBar({ symbol, date: moment().format('YYYY-MM-DD') });
   }
 
   async get5minBar(opt: { symbol: string, date: string }) {
@@ -118,7 +138,7 @@ export class DataProvider {
         )
       `;
     }
-    return db.sequelize.query(`
+    const res: Bar[] = await db.sequelize.query(`
         SELECT
           t2.time,t2.open,t2.high,t2.low,t1.text close
         FROM
@@ -137,7 +157,7 @@ export class DataProvider {
           WHERE
             item = '現在値'
             AND topic = '${opt.symbol}.T'
-            AND created_at LIKE '${opt.date}%'
+            AND date = '${opt.date}'
             ${last30min}
           GROUP BY
             DATE_FORMAT(
@@ -148,8 +168,15 @@ export class DataProvider {
             )
         ORDER BY
           created_at DESC
-        ) t2 on t1.created_at = t2.last_time AND t1.item = '現在値' AND t1.topic = t2.topic
+        ) t2 on t1.created_at = t2.last_time
+        WHERE
+          t1.item = '現在値'
+          AND t1.topic = '${opt.symbol}.T'
+          AND t1.date = '${opt.date}'
     ` , { type: db.sequelize.QueryTypes.SELECT });
+
+    // 过滤数组
+    return await res.filter((bar) => bar.close);
   }
 
   getStochastic(bars: Bar[]) {

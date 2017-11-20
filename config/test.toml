@@ -1,0 +1,23 @@
+###
+### [store]
+###
+### 数据库连接相关配置
+###
+[store]
+  host = "127.0.0.1"
+  database = "test"
+  # 数据库类型
+  dialect = "mysql"
+  username = "root"
+  timezone = "+09:00"
+  operatorsAliases = false
+  logging = false
+###
+### [finapi]
+###
+### findata模块的外部数据接口
+###
+[finapi]
+[finapi.quandl]
+  auth_token = "pEYBvnFs6QyjEsssWXQe"
+  api_version = 3

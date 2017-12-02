@@ -202,10 +202,10 @@ export class DataProvider {
     let proBars: ProBar[] = bars.slice(bars.length - kdList.length, bars.length);
     // 四舍五入，去掉kd小数点
     proBars = proBars.map((bar, i) => {
-      if (kdList[i].k) {
+      if (kdList[i].k !== undefined) {
         bar.k = Math.round(kdList[i].k);
       }
-      if (kdList[i].d) {
+      if (kdList[i].d !== undefined) {
         bar.d = Math.round(kdList[i].d);
       }
       return bar;

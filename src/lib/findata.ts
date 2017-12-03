@@ -21,7 +21,6 @@ export class DataProvider {
     if (config) {
       assert(config.database, 'config.database required.');
       this.config = <ISequelizeConfig>config;
-      this.init();
     }
   }
 

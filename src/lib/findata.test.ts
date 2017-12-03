@@ -8,6 +8,7 @@ import { filter } from 'lodash';
 const config = require('config');
 const findata = new DataProvider(config.store);
 const testBefore = async (done: () => void) => {
+  await findata.init();
   process.env.debug = 'findata:*';
   console.log('测试预处理');
   // await db.buildTable();

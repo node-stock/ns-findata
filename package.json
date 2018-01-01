@@ -1,6 +1,6 @@
 {
   "name": "ns-findata",
-  "version": "0.0.22",
+  "version": "0.0.32",
   "description": "node-stock financial data module",
   "repository": {
     "type": "git",
@@ -20,11 +20,11 @@
     "cheerio": "^1.0.0-rc.2",
     "lodash": "^4.17.4",
     "moment": "^2.19.0",
-    "ns-common": "0.0.11",
-    "ns-store": "0.0.24",
-    "ns-types": "0.0.8",
+    "ns-common": "0.0.13",
+    "ns-store": "0.0.42",
+    "ns-types": "0.0.39",
     "quandl": "0.0.6",
-    "technicalindicators": "^1.0.20",
+    "technicalindicators": "^1.0.21",
     "toml": "^2.3.3"
   },
   "devDependencies": {
@@ -32,18 +32,18 @@
     "@types/config": "0.0.32",
     "@types/lodash": "^4.14.74",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^8.0.20",
+    "@types/node": "^8.5.1",
     "@types/power-assert": "^1.4.29",
-    "rimraf": "^2.6.2",
     "config": "^1.26.1",
-    "debug": "^3.1.0",
     "cross-env": "^5.1.0",
+    "debug": "^3.1.0",
     "intelli-espower-loader": "^1.0.1",
-    "mocha": "^3.5.0",
-    "mysql2": "^1.4.2",
+    "mocha": "^4.0.1",
+    "mysql2": "^1.5.1",
     "power-assert": "^1.4.4",
-    "ts-node": "^3.3.0",
+    "rimraf": "^2.6.2",
+    "ts-node": "^4.0.2",
     "tslint": "^5.6.0",
-    "typescript": "^2.4.2"
+    "typescript": "^2.6.2"
   }
 }

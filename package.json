@@ -1,6 +1,6 @@
 {
   "name": "ns-findata",
-  "version": "0.0.32",
+  "version": "0.0.38",
   "description": "node-stock financial data module",
   "repository": {
     "type": "git",
@@ -20,16 +20,16 @@
     "cheerio": "^1.0.0-rc.2",
     "lodash": "^4.17.4",
     "moment": "^2.19.0",
-    "ns-common": "0.0.13",
-    "ns-store": "0.0.42",
-    "ns-types": "0.0.39",
+    "ns-common": "0.0.18",
+    "ns-store": "0.0.51",
+    "ns-types": "0.0.62",
     "quandl": "0.0.6",
     "technicalindicators": "^1.0.21",
     "toml": "^2.3.3"
   },
   "devDependencies": {
-    "@types/cheerio": "0.22.2",
-    "@types/config": "0.0.32",
+    "@types/cheerio": "^0.22.7",
+    "@types/config": "0.0.33",
     "@types/lodash": "^4.14.74",
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.5.1",

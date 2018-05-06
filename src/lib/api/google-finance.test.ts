@@ -1,7 +1,7 @@
 import { GoogleFinance } from './google-finance';
 import * as assert from 'power-assert';
 
-const testGetHistory = async (done: any) => {
+const testGetHistory = async () => {
   process.env.debug = 'findata:gapi';
   const opt = {
     q: '6553',
@@ -16,12 +16,8 @@ const testGetHistory = async (done: any) => {
     JSON.stringify(stock[stock.length - 1], null, 2)
   );
   assert(stock.length !== 0);
-  done();
 }
 
 describe('谷歌数据接口', () => {
-  it('测试获取股票数据', function (done) {
-    this.timeout(10000);
-    testGetHistory(done);
-  });
+  it('测试获取股票数据', testGetHistory);
 });

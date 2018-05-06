@@ -60,4 +60,3 @@ typings/
 dist
 config/development.toml
 .history
-.vscode

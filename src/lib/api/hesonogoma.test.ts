@@ -11,31 +11,19 @@ const testGetFindDataInfo = async (done: any) => {
     JSON.stringify(nikkei225[nikkei225.length - 1], null, 2)
   );
   assert.equal(225, nikkei225.length);
-  done();
 }
 const testGetFindPriceInfo = async (done: any) => {
   const res = await hg.getFindPriceInfo(hg.Price.ETF);
   assert(res.length !== 0);
-  done();
 }
 
 const testGetFindAuthInfo = async (done: any) => {
   const res = await hg.getFindDataInfo(hg.Data.BaseInfo);
   assert(res.length !== 0);
-  done();
 }
 
 describe('Hesonogoma数据接口', () => {
-  it('测试获取日经225股票', function (done) {
-    this.timeout(10000);
-    testGetFindDataInfo(done);
-  });
-  it('测试投資指標データ接口', function (done) {
-    this.timeout(10000);
-    testGetFindPriceInfo(done);
-  });
-  it('测试认证数据接口', function (done) {
-    this.timeout(10000);
-    testGetFindAuthInfo(done);
-  });
+  it('测试获取日经225股票', testGetFindDataInfo);
+  it('测试投資指標データ接口', testGetFindPriceInfo);
+  it('测试认证数据接口', testGetFindAuthInfo);
 });
